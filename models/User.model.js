@@ -18,10 +18,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
-    company: {
-      type: String,
-      required: [true, "Company is required"],
-    },
+    company: String,
     userImg: String,
     rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
   },
