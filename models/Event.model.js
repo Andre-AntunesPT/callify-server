@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const eventSchema = new Schema({
   title: String,
   description: String,
-  type: { type: String, enum: [elearning, webinar, eventThree] },
+  /* type: { type: String, enum: [elearning, webinar] }, */
   /* room: { type: Schema.Types.ObjectId, ref: "Room" }, */
 });
 
