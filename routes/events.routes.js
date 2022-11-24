@@ -24,8 +24,7 @@ router.post("/events", async (req, res, next) => {
 router.get("/events", async (req, res, next) => {
   try {
     /* After creating the ROOM Route we populate them after find() */
-    //const allEvents = await Event.find().populate("rooms");
-    const allEvents = await Event.find();
+    const allEvents = await Event.find().populate("rooms");
     /* the name of the variable (allProjects) doesn't matter for the client */
     res.status(200).json(allEvents);
   } catch (error) {
@@ -40,8 +39,7 @@ router.get("/event/:id", async (req, res, next) => {
     const { id } = req.params;
 
     /* After creating the ROOM Route we populate them after findById() */
-    //const singleEvent = await Event.findById(id).populate("rooms");
-    const singleEvent = await Event.findById(id);
+    const singleEvent = await Event.findById(id).populate("rooms");
     res.status(200).json(singleEvent);
   } catch (error) {
     next(error);

@@ -4,7 +4,7 @@ const eventSchema = new Schema({
   title: String,
   description: String,
   /* type: { type: String, enum: [elearning, webinar] }, */
-  /* room: { type: Schema.Types.ObjectId, ref: "Room" }, */
+  rooms: { type: Schema.Types.ObjectId, ref: "Room" },
 });
 
 const Event = model("Event", eventSchema);
