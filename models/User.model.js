@@ -20,7 +20,7 @@ const userSchema = new Schema(
     },
     company: {
       type: String,
-      requires: [true, "Company is required"],
+      required: [true, "Company is required"],
     },
     userImg: String,
     rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
