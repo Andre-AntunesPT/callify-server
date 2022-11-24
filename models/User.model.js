@@ -14,10 +14,17 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    name: {
+    username: {
       type: String,
       required: [true, "Name is required."],
     },
+    company: {
+      type: String,
+      requires: [true, 'Company is required'],
+    },
+    userImg: String,
+    events: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+    rooms: [{type: Schema.Types.ObjectId, ref:"Room"}]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
