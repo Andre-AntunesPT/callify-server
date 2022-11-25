@@ -1,7 +1,6 @@
-const axios = require("axios");
-const fetch = require("cross-fetch");
-
 const router = require("express").Router();
+const axios = require("axios");
+
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const Room = require("../models/Room.model");
@@ -44,13 +43,14 @@ router.post("/rooms", async (req, res, next) => {
     });
 
     /* Create the room */
-    /* Since the ROOM model has the field "event" and NOT "eventID", we need to rename it */
 
+    /* Since the ROOM model has the field "event" and NOT "eventID", we need to rename it */
     /* Enviar o ID da room para o Event */
     await Event.findByIdAndUpdate(eventId, {
       $push: { rooms: newRoom._id },
     });
 
+    /* Since the ROOM model has the field "user" and NOT "userID", we need to rename it */
     /* Enviar o ID da room para o User */
     await User.findByIdAndUpdate(userId, {
       $push: { rooms: newRoom._id },
@@ -97,21 +97,15 @@ router.get("/rooms/:id", async (req, res, next) => {
 
 /* EDIT / PUT Single Room - Route */
 
-/* router.put("/room/:id", async (req, res, next) => {
+router.put("/rooms/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { startDate, endDate, roomName, roomUrl, meetingId, eventId } =
-      req.body;
+    const { userRoomName } = req.body;
 
-    const updatedRoom = await Event.findByIdAndUpdate(
+    const updatedRoom = await Room.findByIdAndUpdate(
       id,
       {
-        startDate,
-        endDate,
-        roomName,
-        roomUrl,
-        meetingId,
-        event: eventId,
+        userRoomName,
       },
       { new: true }
     );
@@ -120,13 +114,13 @@ router.get("/rooms/:id", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}); */
+});
 
 /* DELETE Single Project - Route */
 
 router.delete("/rooms/:id", async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id, eventId, userId } = req.params;
 
     await Room.findByIdAndRemove(id);
 
