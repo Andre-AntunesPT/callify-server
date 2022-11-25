@@ -1,5 +1,9 @@
+const axios = require("axios");
+const fetch = require("cross-fetch");
+
 const router = require("express").Router();
 const Event = require("../models/Event.model");
+const User = require("../models/User.model");
 const Room = require("../models/Room.model");
 
 /* POST Single Room - Route so we can create an room */
@@ -8,22 +12,47 @@ const Room = require("../models/Room.model");
 
 router.post("/rooms", async (req, res, next) => {
   try {
-    const { startDate, endDate, roomName, roomUrl, meetingId, eventId } =
-      req.body;
+    const { userRoomName, eventId, userId } = req.body;
+
+    const data = {
+      endDate: "2099-02-18T14:23:00.000Z",
+      fields: ["hostRoomUrl"],
+    };
+
+    const body = JSON.stringify(data);
+
+    const creatingRoom = await axios.post(
+      "https://api.whereby.dev/v1/meetings",
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN_WHEREBY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const newRoom = await Room.create({
+      startDate: creatingRoom.data.startDate,
+      endDate: creatingRoom.data.endDate,
+      roomName: creatingRoom.data.roomName,
+      roomUrl: creatingRoom.data.roomUrl,
+      meetingId: creatingRoom.data.meetingId,
+      event: eventId,
+      user: userId,
+      userRoomName,
+    });
 
     /* Create the room */
     /* Since the ROOM model has the field "event" and NOT "eventID", we need to rename it */
-    const newRoom = await Room.create({
-      startDate,
-      endDate,
-      roomName,
-      roomUrl,
-      meetingId,
-      event: eventId,
-    });
 
     /* Enviar o ID da room para o Event */
     await Event.findByIdAndUpdate(eventId, {
+      $push: { rooms: newRoom._id },
+    });
+
+    /* Enviar o ID da room para o User */
+    await User.findByIdAndUpdate(userId, {
       $push: { rooms: newRoom._id },
     });
 
@@ -100,6 +129,16 @@ router.delete("/rooms/:id", async (req, res, next) => {
     const { id } = req.params;
 
     await Room.findByIdAndRemove(id);
+
+    /* Retirar o ID da room para o Event */
+    await Event.findByIdAndUpdate(eventId, {
+      $pull: { rooms: id },
+    });
+
+    /* Retirar o ID da room para o User */
+    await User.findByIdAndUpdate(userId, {
+      $pull: { rooms: id },
+    });
 
     res
       .status(200)

@@ -15,7 +15,9 @@ const roomSchema = new Schema({
   },
   roomUrl: String,
   meetingId: String,
+  userRoomName: String,
   event: { type: Schema.Types.ObjectId, ref: "Event" },
+  user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 const Room = model("Room", roomSchema);
