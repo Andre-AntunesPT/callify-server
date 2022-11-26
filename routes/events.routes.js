@@ -34,7 +34,7 @@ router.get("/events", async (req, res, next) => {
 
 /* GET Single Event - Route */
 
-router.get("/event/:id", async (req, res, next) => {
+router.get("/events/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
