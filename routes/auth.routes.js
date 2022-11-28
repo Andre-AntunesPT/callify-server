@@ -1,5 +1,7 @@
 const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
+const fileUploader = require('../config/cloudinary.config');
+const multer = require("multer");
 
 
 // ℹ️ Handles password encryption
@@ -159,7 +161,7 @@ router.get("/profile/:id", async (req, res, next) => {
   res.json(user);
 });
 
-
+ 
 
 
 module.exports = router;
