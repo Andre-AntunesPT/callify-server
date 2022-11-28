@@ -19,7 +19,10 @@ const userSchema = new Schema(
       required: [true, "Name is required."],
     },
     company: String,
-    userImg: String,
+    imageUrl: {
+      type: String,
+      default: "./public/userplaceholder.jpg",
+    },
     rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
   },
   {

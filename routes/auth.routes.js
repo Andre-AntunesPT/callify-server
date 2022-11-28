@@ -1,5 +1,8 @@
 const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
+const fileUploader = require('../config/cloudinary.config');
+const multer = require("multer");
+
 
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
@@ -127,5 +130,38 @@ router.get("/verify", isAuthenticated, (req, res, next) => {
   // Send back the token payload object containing the user data
   res.status(200).json(req.payload);
 });
+
+
+
+//PROFILE///
+
+router.get("/profile", isAuthenticated, (req, res, next) => {
+  const user =req.payload;
+  res.status(200).json(user);
+});
+
+
+router.put("/profile/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params 
+    const {imageUrl, username} = req.body;
+    const updatedUser = await User.findByIdAndUpdate(id, {imageUrl, username}, { new: true });
+    
+  
+    res.json(updatedUser) 
+  } catch(error) {
+    console.log(error);
+    next(error)
+  }
+});
+
+router.get("/profile/:id", async (req, res, next) => {
+  const userId = req.params.id
+  const user = await User.findById(userId);
+  res.json(user);
+});
+
+ 
+
 
 module.exports = router;
