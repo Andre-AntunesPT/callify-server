@@ -21,7 +21,7 @@ const userSchema = new Schema(
     company: String,
     imageUrl: {
       type: String,
-      default: "/images/user_default.png",
+      default: "./public/userplaceholder.jpg",
     },
     rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
   },
