@@ -118,21 +118,29 @@ router.put("/rooms/:id", async (req, res, next) => {
 
 /* DELETE Single Project - Route */
 
-router.delete("/rooms/:id", async (req, res, next) => {
+router.delete("/rooms/:id/:userId/:eventId", async (req, res, next) => {
   try {
     const { id, eventId, userId } = req.params;
 
-    await Room.findByIdAndRemove(id);
+    const removedRoom = await Room.findByIdAndRemove(id);
 
     /* Retirar o ID da room para o Event */
-    await Event.findByIdAndUpdate(eventId, {
-      $pull: { rooms: id },
-    });
+    await Event.findByIdAndUpdate(
+      eventId,
+      {
+        $pull: { rooms: removedRoom._id },
+      },
+      { new: true }
+    );
 
     /* Retirar o ID da room para o User */
-    await User.findByIdAndUpdate(userId, {
-      $pull: { rooms: id },
-    });
+    await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { rooms: removedRoom._id },
+      },
+      { new: true }
+    );
 
     res
       .status(200)
