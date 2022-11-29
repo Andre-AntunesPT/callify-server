@@ -11,7 +11,7 @@ const Room = require("../models/Room.model");
 
 router.post("/rooms", async (req, res, next) => {
   try {
-    const { userRoomName, eventId, userId } = req.body;
+    const { userRoomName, eventId, userId, roomColor } = req.body;
 
     const data = {
       endDate: "2099-02-18T14:23:00.000Z",
@@ -40,6 +40,7 @@ router.post("/rooms", async (req, res, next) => {
       event: eventId,
       user: userId,
       userRoomName,
+      roomColor,
     });
 
     /* Create the room */
