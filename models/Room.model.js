@@ -16,12 +16,13 @@ const roomSchema = new Schema({
   roomUrl: String,
   meetingId: String,
   userRoomName: String,
-  
-  roomColor: {
+  palette: String,
+
+  /* palette: {
     type: String,
     enum: ["default", "grey", "purple", "burgund"]
-  },
-  
+  }, */
+
   event: { type: Schema.Types.ObjectId, ref: "Event" },
   user: { type: Schema.Types.ObjectId, ref: "User" },
 });

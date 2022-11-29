@@ -11,7 +11,7 @@ const Room = require("../models/Room.model");
 
 router.post("/rooms", async (req, res, next) => {
   try {
-    const { userRoomName, eventId, userId, roomColor } = req.body;
+    const { userRoomName, eventId, userId, palette } = req.body;
 
     const data = {
       endDate: "2099-02-18T14:23:00.000Z",
@@ -40,7 +40,7 @@ router.post("/rooms", async (req, res, next) => {
       event: eventId,
       user: userId,
       userRoomName,
-      roomColor,
+      palette,
     });
 
     /* Create the room */
@@ -102,11 +102,13 @@ router.put("/rooms/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const { userRoomName } = req.body;
+    const { palette } = req.body;
 
     const updatedRoom = await Room.findByIdAndUpdate(
       id,
       {
         userRoomName,
+        palette,
       },
       { new: true }
     );
