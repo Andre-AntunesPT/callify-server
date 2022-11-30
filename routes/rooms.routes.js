@@ -13,6 +13,7 @@ router.post("/rooms", async (req, res, next) => {
   try {
     const { userRoomName, eventId, userId, palette } = req.body;
 
+    //CREATE ROOM
     const data = {
       endDate: "2099-02-18T14:23:00.000Z",
       fields: ["hostRoomUrl"],
@@ -30,6 +31,28 @@ router.post("/rooms", async (req, res, next) => {
         },
       }
     );
+
+    //SET ROOM COLOR
+    const dataStyle = {
+      palette: palette,
+      theme: "default"
+    };
+
+    const bodyStyle = JSON.stringify(dataStyle);
+
+
+    const stylingRoom = await axios.put(
+      `https://api.whereby.dev/v1/rooms/${creatingRoom.data.roomName}/theme/room-background`,
+      bodyStyle,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN_WHEREBY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+console.log(stylingRoom.data)
 
     const newRoom = await Room.create({
       startDate: creatingRoom.data.startDate,

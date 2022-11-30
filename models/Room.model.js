@@ -18,11 +18,11 @@ const roomSchema = new Schema({
   userRoomName: String,
   palette: String,
 
-  /* palette: {
+  palette: {
     type: String,
     enum: ["default", "grey", "purple", "burgund"]
-  }, */
-
+  }, 
+ 
   event: { type: Schema.Types.ObjectId, ref: "Event" },
   user: { type: Schema.Types.ObjectId, ref: "User" },
 });
