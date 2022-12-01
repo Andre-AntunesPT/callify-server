@@ -136,6 +136,25 @@ router.put("/rooms/:id", async (req, res, next) => {
       { new: true }
     );
 
+    const dataStyle = {
+      palette: palette,
+      theme: "default"
+    };
+
+    const bodyStyle = JSON.stringify(dataStyle);
+
+
+    const stylingRoom = await axios.put(
+      `https://api.whereby.dev/v1/rooms/${updatedRoom.roomName}/theme/room-background`,
+      bodyStyle,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TOKEN_WHEREBY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     res.status(200).json(updatedRoom);
   } catch (error) {
     next(error);

@@ -157,7 +157,7 @@ router.put("/profile/:id", async (req, res, next) => {
 
 router.get("/profile/:id", async (req, res, next) => {
   const userId = req.params.id
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).populate("rooms");
   res.json(user);
 });
 
