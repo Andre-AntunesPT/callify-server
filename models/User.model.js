@@ -21,7 +21,8 @@ const userSchema = new Schema(
     company: String,
     imageUrl: {
       type: String,
-      default: "https://res.cloudinary.com/dnzgudw42/image/upload/v1669648362/fsflrboboa2ypri7pcrn.jpg",
+      default:
+        "https://res.cloudinary.com/dnzgudw42/image/upload/v1669920870/ugysgl5tj0imamk8ddwq.png",
     },
     rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
   },
