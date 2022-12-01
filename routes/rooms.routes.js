@@ -35,11 +35,10 @@ router.post("/rooms", async (req, res, next) => {
     //SET ROOM COLOR
     const dataStyle = {
       palette: palette,
-      theme: "default"
+      theme: "default",
     };
 
     const bodyStyle = JSON.stringify(dataStyle);
-
 
     const stylingRoom = await axios.put(
       `https://api.whereby.dev/v1/rooms/${creatingRoom.data.roomName}/theme/room-background`,
@@ -52,7 +51,7 @@ router.post("/rooms", async (req, res, next) => {
       }
     );
 
-console.log(stylingRoom.data)
+    console.log(stylingRoom.data);
 
     const newRoom = await Room.create({
       startDate: creatingRoom.data.startDate,
