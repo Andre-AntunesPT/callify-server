@@ -14,10 +14,16 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    name: {
+    username: {
       type: String,
       required: [true, "Name is required."],
     },
+    company: String,
+    imageUrl: {
+      type: String,
+      default: "https://res.cloudinary.com/dnzgudw42/image/upload/v1669648362/fsflrboboa2ypri7pcrn.jpg",
+    },
+    rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
