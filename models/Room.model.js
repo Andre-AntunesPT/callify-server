@@ -16,8 +16,6 @@ const roomSchema = new Schema({
   roomUrl: String,
   meetingId: String,
   userRoomName: String,
-  palette: String,
-
   palette: {
     type: String,
     enum: ["default", "grey", "purple", "burgund"],
